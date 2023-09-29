@@ -18,7 +18,7 @@ def readfile(filename):
             data = line.split('<SEP>')
             song = Song(data)
             songlist.append(song)
-    songlist = songlist[0:1000]
+    songlist = songlist[0:100]
     return songlist
 
 
@@ -88,13 +88,13 @@ def main():
     lista = readfile(filename)
 
     bubbleSortTime = timeit.timeit(
-        stmt=lambda: bubbelsortera(lista), number=1)
+        stmt=lambda: bubbelsortera(lista), number=1000)
     print("BubbleSort tog", round(bubbleSortTime, 4), "sekunder")
 
     filename = "unique_tracks.txt"
 
     lista = readfile(filename)
-    quickSortTime = timeit.timeit(stmt=lambda: quicksort(lista), number=1)
+    quickSortTime = timeit.timeit(stmt=lambda: quicksort(lista), number=1000)
     print("Quicksort tog", round(quickSortTime, 4), "sekunder")
 
 
