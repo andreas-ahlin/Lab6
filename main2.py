@@ -21,11 +21,11 @@ def readfile(filename):
             data = line.split('<SEP>')
             song = Song(data)
             songlist.append(song)
-    songlist = songlist[0:250000]
+    songlist = songlist[0:1000000]
     return songlist
 
 
-def binary_search(data, key):  # Taget från föreläsning 3
+def binary_search(data, key):  # Taget från föreläsning 3 O(log(n))
     low = 0
     high = len(data)-1
 
@@ -41,7 +41,7 @@ def binary_search(data, key):  # Taget från föreläsning 3
     return False
 
 
-def linsok(songList, key):  # Taget från föreläsning 3
+def linsok(songList, key):  # Taget från föreläsning 3 O(n)
     for song in songList:
         if song.låtNamn == key:
             return True
@@ -64,27 +64,28 @@ def main():
 
     n = len(lista)
     print("Antal element =", n)
+    lista = sorted(lista, key=lambda x: x.låtNamn)
 
     sista = lista[n//64]
     testnamn = sista.låtNamn
     print(testnamn)
     linjtid = timeit.timeit(stmt=lambda: linsok(
-        lista, testnamn), number=10000)
+        lista, testnamn), number=1000)
     print("Linjärsökningen tog", round(linjtid, 4), "sekunder")
 
     bintid = timeit.timeit(stmt=lambda: binary_search(
-        lista, testnamn), number=10000)
+        lista, testnamn), number=1000)
     print("Binärsökningen tog", round(bintid, 4), "sekunder")
 
     songDict = createDict(lista)
     dicttid = timeit.timeit(
-        stmt=lambda: songDict.get(testnamn, None), number=10000)
+        stmt=lambda: songDict.get(testnamn, None), number=1000)
     print("Hashtabellsökning tog ", round(dicttid, 4), "sekunder")
 
 
 main()
 
 # ___________Linjsok     #Binsok     #hashtabell
-# n=250000  1.6205 sek   0.0412 sek  0.001 sek
-# n=500000  3.2677 sek   0.0431 sek  0.001 sek
-# n=1000000 6.4321 sek   0.0446 sek  0.001 sek
+# n=250000  0.2824 sek   0.0042 sek  0.0001 sek
+# n=500000  0.5583 sek   0.0041 sek  0.0001 sek
+# n=1000000 1.9664 sek   0.0045 sek  0.0001 sek
